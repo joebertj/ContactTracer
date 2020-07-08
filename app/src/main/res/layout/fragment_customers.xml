@@ -154,9 +154,10 @@
         android:id="@+id/etFeedback"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
         android:text="All Fields are required"
         android:textColor="#FF0000"
         android:visibility="invisible"
-        tools:layout_editor_absoluteX="32dp"
+        app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="16dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

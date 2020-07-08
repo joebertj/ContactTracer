@@ -1,5 +1,8 @@
 package com.kenchlightyear.contacttracer.ui.customers;
 
+import java.io.DataOutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
@@ -7,6 +10,7 @@ import java.util.TimeZone;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +25,11 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.kenchlightyear.contacttracer.R;
 import com.kenchlightyear.contacttracer.util.GpsTracker;
+
+import org.json.JSONObject;
+
+import static android.graphics.Color.BLUE;
+import static android.graphics.Color.RED;
 
 public class CustomersFragment extends Fragment {
 
@@ -82,6 +91,7 @@ public class CustomersFragment extends Fragment {
     public void Save(View view){
         feedback = (TextView) view.findViewById(R.id.etFeedback);
         feedback.setVisibility(View.INVISIBLE);
+        feedback.setTextColor(RED);
         first = ((TextView) view.findViewById(R.id.etFirst)).getText().toString();
         last = ((TextView) view.findViewById(R.id.etLast)).getText().toString();
         address = ((TextView) view.findViewById(R.id.etAddress)).getText().toString();
@@ -91,36 +101,110 @@ public class CustomersFragment extends Fragment {
         n = ((TextView) view.findViewById(R.id.etNumber)).getText().toString();
         email = ((TextView) view.findViewById(R.id.etEmail)).getText().toString();
         t = ((TextView) view.findViewById(R.id.etTemperature)).getText().toString();
+        boolean validated = true;
         if(first == null || last == null || address == null || barangay == null || city == null
                 || province == null || n == null || email == null || t == null
                 || first.isEmpty() || last.isEmpty() || address.isEmpty() || barangay.isEmpty() || city.isEmpty()
                 || province.isEmpty() || n.isEmpty() || email.isEmpty() || t.isEmpty() ) {
             feedback.setText("All Fields are required");
             feedback.setVisibility(View.VISIBLE);
+            validated = false;
         } else {
             number = Long.valueOf(n);
             temperature = Float.valueOf(t);
             if((number > 99999999 && number < 9000000000L) || number > 9999999999L || number < 1000000) {
                 feedback.setText("Contact number has extra or missing digits. 7-8 digits landline and 10-11 digits cellular are accepted");
                 feedback.setVisibility(View.VISIBLE);
+                validated = false;
             }
             if(temperature < 35 || temperature > 41 ) {
                 feedback.setText("Temperature is betweeen 35 and 41");
                 feedback.setVisibility(View.VISIBLE);
+                validated = false;
             }
         }
-        sharedpreferences = this.getActivity().getSharedPreferences(establishment,
-                Context.MODE_PRIVATE);
-        if (sharedpreferences.contains(Name)) name = sharedpreferences.getString(Name, "");
-        GpsTracker gpsTracker;
-        gpsTracker = new GpsTracker(this.getActivity());
-        if(gpsTracker.canGetLocation()){
-            latitude = gpsTracker.getLatitude();
-            longitude = gpsTracker.getLongitude();
-        }else{
-            gpsTracker.showSettingsAlert();
+        if(validated) {
+            sharedpreferences = this.getActivity().getSharedPreferences(establishment,
+                    Context.MODE_PRIVATE);
+            if (sharedpreferences.contains(Name)) name = sharedpreferences.getString(Name, "");
+            GpsTracker gpsTracker;
+            gpsTracker = new GpsTracker(this.getActivity());
+            if (gpsTracker.canGetLocation()) {
+                latitude = gpsTracker.getLatitude();
+                longitude = gpsTracker.getLongitude();
+            } else {
+                gpsTracker.showSettingsAlert();
+            }
+            lat = Double.toString(latitude);
+            lon = Double.toString(longitude);
+            feedback.setTextColor(BLUE);
+            feedback.setText("Adding Customer...");
+            feedback.setVisibility(View.VISIBLE);
+            sendPost();
+            ((TextView) view.findViewById(R.id.etFirst)).setText("");
+            ((TextView) view.findViewById(R.id.etLast)).setText("");
+            ((TextView) view.findViewById(R.id.etAddress)).setText("");
+            ((TextView) view.findViewById(R.id.etBarangay)).setText("");
+            ((TextView) view.findViewById(R.id.etCity)).setText("");
+            ((TextView) view.findViewById(R.id.etProvince)).setText("");
+            ((TextView) view.findViewById(R.id.etNumber)).setText("");
+            ((TextView) view.findViewById(R.id.etEmail)).setText("");
+            ((TextView) view.findViewById(R.id.etTemperature)).setText("");
+            feedback.setText("Customer added");
         }
-        lat = Double.toString(latitude);
-        lon = Double.toString(longitude);
+    }
+
+    public void sendPost() {
+        final String urlAdress = "https://liezel.kenchlightyear.com/api/v1/customer";
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL(urlAdress);
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("POST");
+                    conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+                    conn.setRequestProperty("Accept","application/json");
+                    conn.setDoOutput(true);
+                    conn.setDoInput(true);
+
+                    JSONObject jsonParam = new JSONObject();
+                    jsonParam.put("first", first);
+                    jsonParam.put("last", last);
+                    jsonParam.put("address", address);
+                    jsonParam.put("barangay", barangay);
+                    jsonParam.put("city", city);
+                    jsonParam.put("province", province);
+                    jsonParam.put("number", number);
+                    jsonParam.put("email", email);
+                    jsonParam.put("temperature", temperature);
+                    jsonParam.put("timestamp", ts);
+                    jsonParam.put("establishment", name);
+                    jsonParam.put("latitude", latitude);
+                    jsonParam.put("longitude", longitude);
+
+                    DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+                    os.writeBytes(jsonParam.toString());
+
+                    os.flush();
+                    os.close();
+
+                    int code = conn.getResponseCode();
+                    if(code == 200) {
+                        ;
+                    } else {
+                        Log.i("JSON", jsonParam.toString());
+                        Log.i("STATUS", String.valueOf(code));
+                        Log.i("MSG", conn.getResponseMessage());
+                    }
+
+                    conn.disconnect();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        thread.start();
     }
 }
