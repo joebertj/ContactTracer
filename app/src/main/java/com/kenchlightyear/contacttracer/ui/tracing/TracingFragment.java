@@ -1,10 +1,9 @@
-package com.kenchlightyear.contacttracer.ui.dashboard;
+package com.kenchlightyear.contacttracer.ui.tracing;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,16 +13,16 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.kenchlightyear.contacttracer.R;
 
-public class DashboardFragment extends Fragment {
+public class TracingFragment extends Fragment {
 
-    private DashboardViewModel dashboardViewModel;
+    private TracingViewModel tracingViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        dashboardViewModel =
-                ViewModelProviders.of(this).get(DashboardViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
-        dashboardViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        tracingViewModel =
+                ViewModelProviders.of(this).get(TracingViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_notifications, container, false);
+        tracingViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 ;

@@ -1,10 +1,9 @@
-package com.kenchlightyear.contacttracer.ui.notifications;
+package com.kenchlightyear.contacttracer.ui.customers;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,16 +13,16 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.kenchlightyear.contacttracer.R;
 
-public class NotificationsFragment extends Fragment {
+public class CustomersFragment extends Fragment {
 
-    private NotificationsViewModel notificationsViewModel;
+    private CustomersViewModel customersViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        notificationsViewModel =
-                ViewModelProviders.of(this).get(NotificationsViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_notifications, container, false);
-        notificationsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        customersViewModel =
+                ViewModelProviders.of(this).get(CustomersViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        customersViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 ;

@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Contact Tracer</string>
-    <string name="title_home">Establishment</string>
-    <string name="title_dashboard">Customers</string>
-    <string name="title_notifications">Tracing</string>
+    <string name="title_establishment">Establishment</string>
+    <string name="title_customers">Customers</string>
+    <string name="title_tracing">Tracing</string>
 </resources>

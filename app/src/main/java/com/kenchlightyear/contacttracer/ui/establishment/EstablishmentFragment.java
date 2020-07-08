@@ -1,4 +1,4 @@
-package com.kenchlightyear.contacttracer.ui.home;
+package com.kenchlightyear.contacttracer.ui.establishment;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -17,9 +17,9 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.kenchlightyear.contacttracer.R;
 
-public class HomeFragment extends Fragment {
+public class EstablishmentFragment extends Fragment {
 
-    private HomeViewModel homeViewModel;
+    private EstablishmentViewModel establishmentViewModel;
     SharedPreferences sharedpreferences;
     TextView name;
     public static final String establishment = "establishment";
@@ -28,8 +28,8 @@ public class HomeFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel.class);
+        establishmentViewModel =
+                ViewModelProviders.of(this).get(EstablishmentViewModel.class);
         root = inflater.inflate(R.layout.fragment_home, container, false);
         Button button = (Button) root.findViewById(R.id.bSave);
         button.setOnClickListener(new View.OnClickListener()
@@ -40,7 +40,7 @@ public class HomeFragment extends Fragment {
                 Save();
             }
         });
-        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        establishmentViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 Get(root);
