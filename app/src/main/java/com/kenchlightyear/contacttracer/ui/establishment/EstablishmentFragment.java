@@ -20,17 +20,25 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.kenchlightyear.contacttracer.MainActivity;
 import com.kenchlightyear.contacttracer.R;
+import com.kenchlightyear.contacttracer.util.GpsTracker;
 
 public class EstablishmentFragment extends Fragment {
 
     private EstablishmentViewModel establishmentViewModel;
     SharedPreferences sharedpreferences;
     TextView name;
+    TextView lat;
+    TextView lon;
     public static final String establishment = "establishment";
     public static final String Name = "name";
     public static final String Latitude = "latitude";
-    public static final String Longtitude = "longtitude";
+    public static final String Longitude = "longitude";
+    Location location;
+    double latitude = 14.5818;
+    double longitude = 120.9770;
+
     View root;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -55,21 +63,11 @@ public class EstablishmentFragment extends Fragment {
     }
 
     public void Save() {
-        Location location;
-        double latitude = 0;
-        double longitude = 0;
-
         String n = name.getText().toString();
         SharedPreferences.Editor editor = sharedpreferences.edit();
         editor.putString(Name, n);
-        LocationManager lm = (LocationManager) this.getContext().getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            longitude = location.getLongitude();
-            latitude = location.getLatitude();
-        }
         editor.putFloat(Latitude, (float) latitude);
-        editor.putFloat(Longtitude, (float) longitude);
+        editor.putFloat(Longitude, (float) longitude);
         editor.commit();
     }
 
@@ -79,16 +77,30 @@ public class EstablishmentFragment extends Fragment {
     }
 
     public void Get(View view) {
-
-
         name = (TextView) view.findViewById(R.id.etName);
+        lat = (TextView) view.findViewById(R.id.etLat);
+        lon = (TextView) view.findViewById(R.id.etLong);
         sharedpreferences = this.getActivity().getSharedPreferences(establishment,
                 Context.MODE_PRIVATE);
-
-
         if (sharedpreferences.contains(Name)) {
             name.setText(sharedpreferences.getString(Name, ""));
         }
+        GpsTracker gpsTracker;
+        gpsTracker = new GpsTracker(this.getActivity());
+        if(gpsTracker.canGetLocation()){
+            latitude = gpsTracker.getLatitude();
+            longitude = gpsTracker.getLongitude();
+            lat.setText(new Double(latitude).toString());
+            lon.setText(new Double(longitude).toString());
+        }else{
+            gpsTracker.showSettingsAlert();
+            // use previous location if available
+            if (sharedpreferences.contains(Latitude)) {
+                lat.setText(new Float(sharedpreferences.getFloat(Latitude, (float) latitude)).toString());
+            }
+            if (sharedpreferences.contains(Longitude)) {
+                lon.setText(new Float(sharedpreferences.getFloat(Longitude, (float)longitude)).toString());
+            }
+        }
     }
-
 }
