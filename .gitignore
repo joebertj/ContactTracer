@@ -17,3 +17,5 @@ gradle.properties
 gradle/
 gradlew
 gradlew.bat
+app/release/
+app/src/release/
