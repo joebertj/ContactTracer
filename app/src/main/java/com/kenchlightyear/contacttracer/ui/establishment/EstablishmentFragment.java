@@ -28,7 +28,6 @@ public class EstablishmentFragment extends Fragment {
     public static final String Name = "name";
     double latitude = 14.5818;
     double longitude = 120.9770;
-
     View root;
 
     public View onCreateView(@NonNull LayoutInflater inflater,

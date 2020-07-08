@@ -149,4 +149,14 @@
         app:layout_constraintStart_toEndOf="@+id/etTemperature"
         app:layout_constraintTop_toBottomOf="@+id/etEmail"
         app:layout_constraintVertical_bias="0.6" />
+
+    <TextView
+        android:id="@+id/etFeedback"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="All Fields are required"
+        android:textColor="#FF0000"
+        android:visibility="invisible"
+        tools:layout_editor_absoluteX="32dp"
+        tools:layout_editor_absoluteY="16dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
