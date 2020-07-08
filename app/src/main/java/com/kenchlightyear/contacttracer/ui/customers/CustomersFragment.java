@@ -21,7 +21,7 @@ public class CustomersFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         customersViewModel =
                 ViewModelProviders.of(this).get(CustomersViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        View root = inflater.inflate(R.layout.fragment_customers, container, false);
         customersViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {

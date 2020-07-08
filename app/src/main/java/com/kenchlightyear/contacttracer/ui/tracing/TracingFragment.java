@@ -21,7 +21,7 @@ public class TracingFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         tracingViewModel =
                 ViewModelProviders.of(this).get(TracingViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_notifications, container, false);
+        View root = inflater.inflate(R.layout.fragment_tracing, container, false);
         tracingViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
