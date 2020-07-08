@@ -1,25 +1,16 @@
 package com.kenchlightyear.contacttracer;
 
-import android.Manifest;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.kenchlightyear.contacttracer.util.GpsTracker;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 

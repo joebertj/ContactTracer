@@ -10,12 +10,13 @@
         android:id="@+id/etFirst"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginLeft="28dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="40dp"
+        android:width="170dp"
+        android:height="100dp"
         android:ems="10"
+        android:hint="First Name"
         android:inputType="textPersonName"
-        android:text="First Name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,12 +24,12 @@
         android:id="@+id/etLast"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="40dp"
+        android:width="170dp"
+        android:height="100dp"
         android:ems="10"
+        android:hint="Last Name"
         android:inputType="textPersonName"
-        android:text="Last Name"
         app:layout_constraintStart_toEndOf="@+id/etFirst"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,11 +38,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
         android:layout_marginTop="40dp"
+        android:width="170dp"
+        android:height="100dp"
         android:ems="10"
+        android:hint="Address"
         android:inputType="textPersonName"
-        android:text="Address"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etFirst" />
 
@@ -50,9 +52,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
+        android:width="170dp"
+        android:height="100dp"
         android:ems="10"
+        android:hint="Barangay"
         android:inputType="textPersonName"
-        android:text="Barangay"
         app:layout_constraintStart_toEndOf="@+id/etAddress"
         app:layout_constraintTop_toBottomOf="@+id/etLast" />
 
@@ -61,11 +65,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
         android:layout_marginTop="40dp"
+        android:width="170dp"
+        android:height="100dp"
         android:ems="10"
+        android:hint="City"
         android:inputType="textPersonName"
-        android:text="City"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etAddress" />
 
@@ -74,22 +79,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
+        android:width="170dp"
+        android:height="100dp"
         android:ems="10"
+        android:hint="Province"
         android:inputType="textPersonName"
-        android:text="Province"
         app:layout_constraintStart_toEndOf="@+id/etCity"
         app:layout_constraintTop_toBottomOf="@+id/etBarangay" />
 
     <EditText
         android:id="@+id/etNumber"
-        android:layout_width="208dp"
+        android:layout_width="170dp"
         android:layout_height="45dp"
         android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="40dp"
+        android:width="170dp"
+        android:height="100dp"
         android:ems="10"
+        android:hint="Contact Number"
         android:inputType="textPersonName"
-        android:text="Contact Number"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etCity" />
 
@@ -97,12 +105,12 @@
         android:id="@+id/etEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="40dp"
+        android:width="170dp"
+        android:height="100dp"
         android:ems="10"
+        android:hint="Email"
         android:inputType="textPersonName"
-        android:text="Email"
         app:layout_constraintStart_toEndOf="@+id/etNumber"
         app:layout_constraintTop_toBottomOf="@+id/etProvince" />
 
@@ -111,11 +119,11 @@
         android:layout_width="128dp"
         android:layout_height="41dp"
         android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
         android:layout_marginTop="40dp"
+        android:height="100dp"
         android:ems="10"
+        android:hint="Temperature"
         android:inputType="textPersonName"
-        android:text="Temperature"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etNumber" />
 
@@ -130,4 +138,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etTemperature"
         app:layout_constraintVertical_bias="0.278" />
+
+    <TextView
+        android:id="@+id/etTimestamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:text="Timestamp"
+        app:layout_constraintBottom_toTopOf="@+id/bSave"
+        app:layout_constraintStart_toEndOf="@+id/etTemperature"
+        app:layout_constraintTop_toBottomOf="@+id/etEmail"
+        app:layout_constraintVertical_bias="0.6" />
 </androidx.constraintlayout.widget.ConstraintLayout>
