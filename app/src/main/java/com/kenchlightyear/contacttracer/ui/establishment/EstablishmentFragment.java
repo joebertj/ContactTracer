@@ -18,14 +18,21 @@ import androidx.lifecycle.ViewModelProviders;
 import com.kenchlightyear.contacttracer.R;
 import com.kenchlightyear.contacttracer.util.GpsTracker;
 
+import org.w3c.dom.Text;
+
+import java.util.UUID;
+
 public class EstablishmentFragment extends Fragment {
 
     SharedPreferences sharedpreferences;
     TextView name;
+    TextView uuid;
     TextView lat;
     TextView lon;
     public static final String establishment = "establishment";
     public static final String Name = "name";
+    public static final String UniqueID = "uuid";
+    String uniqueId;
     double latitude = 14.5818;
     double longitude = 120.9770;
     View root;
@@ -53,17 +60,28 @@ public class EstablishmentFragment extends Fragment {
     public void Save() {
         String n = name.getText().toString();
         SharedPreferences.Editor editor = sharedpreferences.edit();
+        uniqueId = UUID.randomUUID().toString();
         editor.putString(Name, n);
+        editor.putString(UniqueID, uniqueId);
         editor.apply();
     }
 
     public void Get(View view) {
         name = (TextView) view.findViewById(R.id.etName);
+        uuid = (TextView) view.findViewById(R.id.etUuid);
         lat = (TextView) view.findViewById(R.id.etLat);
         lon = (TextView) view.findViewById(R.id.etLong);
         sharedpreferences = this.getActivity().getSharedPreferences(establishment,
                 Context.MODE_PRIVATE);
         if (sharedpreferences.contains(Name)) name.setText(sharedpreferences.getString(Name, ""));
+        if (sharedpreferences.contains(UniqueID)) uuid.setText(sharedpreferences.getString(UniqueID, ""));
+        uniqueId = uuid.getText().toString();
+        if (uniqueId.equals("Uuid")) {
+            uniqueId = UUID.randomUUID().toString();
+            SharedPreferences.Editor editor = sharedpreferences.edit();
+            editor.putString(UniqueID, uniqueId);
+            editor.apply();
+        }
         GpsTracker gpsTracker;
         gpsTracker = new GpsTracker(this.getActivity());
         if(gpsTracker.canGetLocation()){
@@ -72,6 +90,7 @@ public class EstablishmentFragment extends Fragment {
         }else{
             gpsTracker.showSettingsAlert();
         }
+        uuid.setText(uniqueId);
         lat.setText("Latitude: " + Double.toString(latitude));
         lon.setText("Longitude: " + Double.toString(longitude));
     }
