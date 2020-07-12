@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -53,7 +54,6 @@ public class CustomersFragment extends Fragment {
     String t;
     Float temperature;
     TextView timestamp;
-    TextView feedback;
     String ts;
     String name;
     String establishmentId;
@@ -101,9 +101,6 @@ public class CustomersFragment extends Fragment {
     }
 
     public void Save(View view){
-        feedback = (TextView) view.findViewById(R.id.etFeedback);
-        feedback.setVisibility(View.INVISIBLE);
-        feedback.setTextColor(RED);
         first = ((TextView) view.findViewById(R.id.etFirst)).getText().toString();
         last = ((TextView) view.findViewById(R.id.etLast)).getText().toString();
         address = ((TextView) view.findViewById(R.id.etAddress)).getText().toString();
@@ -118,20 +115,25 @@ public class CustomersFragment extends Fragment {
                 || province == null || n == null || email == null || t == null
                 || first.isEmpty() || last.isEmpty() || address.isEmpty() || barangay.isEmpty() || city.isEmpty()
                 || province.isEmpty() || n.isEmpty() || email.isEmpty() || t.isEmpty() ) {
-            feedback.setText("All Fields are required");
-            feedback.setVisibility(View.VISIBLE);
+            Toast.makeText(this.getContext(), "All Fields are required",Toast.LENGTH_LONG).show();
             validated = false;
         } else {
-            number = Long.valueOf(n);
-            temperature = Float.valueOf(t);
+            try {
+                number = Long.valueOf(n);
+            }catch (NumberFormatException e) {
+                number = 0L;
+            }
+            try {
+                temperature = Float.valueOf(t);
+            }catch (NumberFormatException e) {
+                temperature = 0f;
+            }
             if((number > 99999999 && number < 9000000000L) || number > 9999999999L || number < 1000000) {
-                feedback.setText("Contact number has extra or missing digits. 7-8 digits landline and 10-11 digits cellular are accepted");
-                feedback.setVisibility(View.VISIBLE);
+                Toast.makeText(this.getContext(), "Contact number has extra or missing digits. 7-8 digits landline and 10-11 digits cellular are accepted",Toast.LENGTH_LONG).show();
                 validated = false;
             }
             if(temperature < 35 || temperature > 41 ) {
-                feedback.setText("Temperature is betweeen 35 and 41");
-                feedback.setVisibility(View.VISIBLE);
+                Toast.makeText(this.getContext(), "Temperature is betweeen 35 and 41",Toast.LENGTH_LONG).show();
                 validated = false;
             }
         }
@@ -150,9 +152,7 @@ public class CustomersFragment extends Fragment {
             }
             lat = Double.toString(latitude);
             lon = Double.toString(longitude);
-            feedback.setTextColor(BLUE);
-            feedback.setText("Adding Customer...");
-            feedback.setVisibility(View.VISIBLE);
+            Toast.makeText(this.getContext(), "Adding Customer...",Toast.LENGTH_LONG).show();
             new AddCustomer().execute("https://liezel.kenchlightyear.com/api/v1/customer", view);
         }
     }
@@ -218,8 +218,7 @@ public class CustomersFragment extends Fragment {
             ((TextView) view.findViewById(R.id.etNumber)).setText("");
             ((TextView) view.findViewById(R.id.etEmail)).setText("");
             ((TextView) view.findViewById(R.id.etTemperature)).setText("");
-            feedback = view.findViewById(R.id.etFeedback);
-            feedback.setText("Customer added");
+            Toast.makeText(getContext(), "Customer added",Toast.LENGTH_LONG).show();
         }
 
     }

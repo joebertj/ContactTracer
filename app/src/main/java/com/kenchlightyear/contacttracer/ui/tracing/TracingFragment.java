@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,21 +17,21 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.kenchlightyear.contacttracer.Customer;
 import com.kenchlightyear.contacttracer.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TracingFragment extends Fragment {
 
@@ -137,7 +136,7 @@ public class TracingFragment extends Fragment {
             return buffer.toString();
         }
         protected void onPostExecute(String cJson){
-            String [] customers = new String[1000];
+            List<Customer> customers = new ArrayList<Customer>();
             JSONArray c = null;
             try {
                 c = new JSONArray(cJson);
@@ -147,12 +146,17 @@ public class TracingFragment extends Fragment {
                     last = c.getJSONObject(i).getString("last");
                     number = c.getJSONObject(i).getLong("number");
                     email = c.getJSONObject(i).getString("email");
-                    customers[i] = first + " " + last + " 0" + number.toString() + " " + email;
+                    Customer customer = new Customer();
+                    customer.setFirst(first);
+                    customer.setLast(last);
+                    customer.setNumber(number);
+                    customer.setEmail(email);
+                    customers.add(customer);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            customersAdapter = new CustomersAdapater(customers);
+            customersAdapter = new CustomersAdapter(customers);
             recyclerView.setAdapter(customersAdapter);
         }
 
