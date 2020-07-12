@@ -1,8 +1,10 @@
 package com.kenchlightyear.contacttracer;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.widget.TextView;
 
-public class Customer {
+public class Customer implements Parcelable {
     String first;
     String last;
     String address;
@@ -137,4 +139,56 @@ public class Customer {
     public void setLongitude(String longitude) {
         this.longitude = longitude;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.first);
+        dest.writeString(this.last);
+        dest.writeString(this.address);
+        dest.writeString(this.barangay);
+        dest.writeString(this.city);
+        dest.writeString(this.province);
+        dest.writeValue(this.number);
+        dest.writeString(this.email);
+        dest.writeValue(this.temperature);
+        dest.writeString(this.timestamp);
+        dest.writeString(this.name);
+        dest.writeString(this.establishmentId);
+        dest.writeValue(this.latitude);
+        dest.writeString(this.longitude);
+    }
+
+    protected Customer(Parcel in) {
+        this.first = in.readString();
+        this.last = in.readString();
+        this.address = in.readString();
+        this.barangay = in.readString();
+        this.city = in.readString();
+        this.province = in.readString();
+        this.number = (Long) in.readValue(Long.class.getClassLoader());
+        this.email = in.readString();
+        this.temperature = (Float) in.readValue(Float.class.getClassLoader());
+        this.timestamp = in.readString();
+        this.name = in.readString();
+        this.establishmentId = in.readString();
+        this.latitude = (Double) in.readValue(Double.class.getClassLoader());
+        this.longitude = in.readString();
+    }
+
+    public static final Parcelable.Creator<Customer> CREATOR = new Parcelable.Creator<Customer>() {
+        @Override
+        public Customer createFromParcel(Parcel source) {
+            return new Customer(source);
+        }
+
+        @Override
+        public Customer[] newArray(int size) {
+            return new Customer[size];
+        }
+    };
 }

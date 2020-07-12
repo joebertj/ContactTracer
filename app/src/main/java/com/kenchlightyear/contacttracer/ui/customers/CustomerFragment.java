@@ -1,12 +1,9 @@
 package com.kenchlightyear.contacttracer.ui.customers;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.DataOutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
@@ -20,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,12 +31,8 @@ import com.kenchlightyear.contacttracer.R;
 import com.kenchlightyear.contacttracer.util.GpsTracker;
 
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
-import static android.graphics.Color.BLUE;
-import static android.graphics.Color.RED;
-
-public class CustomersFragment extends Fragment {
+public class CustomerFragment extends Fragment {
 
     SharedPreferences sharedpreferences;
 
@@ -69,13 +63,13 @@ public class CustomersFragment extends Fragment {
 
     View root;
 
-    private CustomersViewModel customersViewModel;
+    private CustomerViewModel customerViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        customersViewModel =
-                ViewModelProviders.of(this).get(CustomersViewModel.class);
-        root = inflater.inflate(R.layout.fragment_customers, container, false);
+        customerViewModel =
+                ViewModelProviders.of(this).get(CustomerViewModel.class);
+        root = inflater.inflate(R.layout.fragment_customer, container, false);
         Button button = (Button) root.findViewById(R.id.bSave);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,7 +77,7 @@ public class CustomersFragment extends Fragment {
                 Save(root);
             }
         });
-        customersViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        customerViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 Get(root);

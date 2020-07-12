@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.establishment.EstablishmentFragment">
+
+    <TextView
+        android:id="@+id/etName"
+        android:layout_width="338dp"
+        android:layout_height="54dp"
+        android:text="@string/name"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toTopOf="@+id/etNumber"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.219"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.832" />
+
+    <TextView
+        android:id="@+id/etNumber"
+        android:layout_width="256dp"
+        android:layout_height="35dp"
+        android:layout_marginBottom="20dp"
+        android:text="Number"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/etEmail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.103"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/etEmail"
+        android:layout_width="263dp"
+        android:layout_height="36dp"
+        android:layout_marginBottom="16dp"
+        android:text="Email"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/etAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.108"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/etAddress"
+        android:layout_width="278dp"
+        android:layout_height="29dp"
+        android:layout_marginBottom="20dp"
+        android:text="Address"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/etBarangay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.12"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/etBarangay"
+        android:layout_width="278dp"
+        android:layout_height="25dp"
+        android:layout_marginBottom="24dp"
+        android:text="Barangay"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/etCity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.12"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/etCity"
+        android:layout_width="224dp"
+        android:layout_height="23dp"
+        android:layout_marginBottom="20dp"
+        android:text="City"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/etProvince"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.085"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/etProvince"
+        android:layout_width="172dp"
+        android:layout_height="27dp"
+        android:layout_marginBottom="236dp"
+        android:text="Province"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.066"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

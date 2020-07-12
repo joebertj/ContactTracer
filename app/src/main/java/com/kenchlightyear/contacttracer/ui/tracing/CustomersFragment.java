@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,7 +34,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TracingFragment extends Fragment {
+public class CustomersFragment extends Fragment {
 
     SharedPreferences sharedpreferences;
     public static final String establishment = "establishment";
@@ -54,16 +55,16 @@ public class TracingFragment extends Fragment {
     RecyclerView recyclerView;
     private RecyclerView.Adapter customersAdapter;
     private RecyclerView.LayoutManager layoutManager;
-    private TracingViewModel tracingViewModel;
+    private CustomersViewModel customersViewModel;
 
     View root;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        tracingViewModel =
-                ViewModelProviders.of(this).get(TracingViewModel.class);
-        root = inflater.inflate(R.layout.fragment_tracing, container, false);
-        tracingViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        customersViewModel =
+                ViewModelProviders.of(this).get(CustomersViewModel.class);
+        root = inflater.inflate(R.layout.fragment_customers, container, false);
+        customersViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 Get(root);

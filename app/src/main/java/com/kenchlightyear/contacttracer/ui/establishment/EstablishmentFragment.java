@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -33,11 +34,14 @@ public class EstablishmentFragment extends Fragment {
     String uniqueId;
     double latitude = 14.5818;
     double longitude = 120.9770;
+
     View root;
+
+    EstablishmentViewModel establishmentViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        EstablishmentViewModel establishmentViewModel = ViewModelProviders.of(this).get(EstablishmentViewModel.class);
+        establishmentViewModel = ViewModelProviders.of(this).get(EstablishmentViewModel.class);
         root = inflater.inflate(R.layout.fragment_establishment, container, false);
         Button button = root.findViewById(R.id.bSave);
         button.setOnClickListener(new View.OnClickListener() {

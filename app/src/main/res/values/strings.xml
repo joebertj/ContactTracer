@@ -4,4 +4,5 @@
     <string name="title_customers">Add Customer</string>
     <string name="title_tracing">Customers</string>
     <string name="latitude">Latitude</string>
+    <string name="name">Name</string>
 </resources>
