@@ -26,7 +26,7 @@ public class EstablishmentFragment extends Fragment {
 
     SharedPreferences sharedpreferences;
     TextView name;
-    TextView uuid;
+    TextView establishmentId;
     TextView lat;
     TextView lon;
     public static final String establishment = "establishment";
@@ -68,14 +68,14 @@ public class EstablishmentFragment extends Fragment {
 
     public void Get(View view) {
         name = (TextView) view.findViewById(R.id.etName);
-        uuid = (TextView) view.findViewById(R.id.etUuid);
+        establishmentId = (TextView) view.findViewById(R.id.etUuid);
         lat = (TextView) view.findViewById(R.id.etLat);
         lon = (TextView) view.findViewById(R.id.etLong);
         sharedpreferences = this.getActivity().getSharedPreferences(establishment,
                 Context.MODE_PRIVATE);
         if (sharedpreferences.contains(Name)) name.setText(sharedpreferences.getString(Name, ""));
-        if (sharedpreferences.contains(UniqueID)) uuid.setText(sharedpreferences.getString(UniqueID, ""));
-        uniqueId = uuid.getText().toString();
+        if (sharedpreferences.contains(UniqueID)) establishmentId.setText(sharedpreferences.getString(UniqueID, ""));
+        uniqueId = establishmentId.getText().toString();
         if (uniqueId.equals("Uuid")) {
             uniqueId = UUID.randomUUID().toString();
             SharedPreferences.Editor editor = sharedpreferences.edit();
@@ -90,7 +90,7 @@ public class EstablishmentFragment extends Fragment {
         }else{
             gpsTracker.showSettingsAlert();
         }
-        uuid.setText(uniqueId);
+        establishmentId.setText(uniqueId);
         lat.setText("Latitude: " + Double.toString(latitude));
         lon.setText("Longitude: " + Double.toString(longitude));
     }

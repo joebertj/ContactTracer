@@ -49,7 +49,7 @@ public class CustomersFragment extends Fragment {
     TextView feedback;
     String ts;
     String name;
-    String uuid;
+    String establishmentId;
     String lat;
     String lon;
     public static final String establishment = "establishment";
@@ -129,7 +129,7 @@ public class CustomersFragment extends Fragment {
             sharedpreferences = this.getActivity().getSharedPreferences(establishment,
                     Context.MODE_PRIVATE);
             if (sharedpreferences.contains(Name)) name = sharedpreferences.getString(Name, "");
-            uuid = sharedpreferences.getString(UniqueID, "");
+            establishmentId = sharedpreferences.getString(UniqueID, "");
             GpsTracker gpsTracker;
             gpsTracker = new GpsTracker(this.getActivity());
             if (gpsTracker.canGetLocation()) {
@@ -183,7 +183,7 @@ public class CustomersFragment extends Fragment {
                     jsonParam.put("temperature", temperature);
                     jsonParam.put("timestamp", ts);
                     jsonParam.put("establishment", name);
-                    jsonParam.put("uuid", uuid);
+                    jsonParam.put("establishmentId", establishmentId);
                     jsonParam.put("latitude", latitude);
                     jsonParam.put("longitude", longitude);
 
