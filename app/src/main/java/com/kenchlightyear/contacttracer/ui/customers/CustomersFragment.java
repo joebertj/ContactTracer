@@ -2,8 +2,6 @@ package com.kenchlightyear.contacttracer.ui.customers;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -28,12 +26,10 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.kenchlightyear.contacttracer.R;
-import com.kenchlightyear.contacttracer.ui.tracing.CustomersAdapater;
-import com.kenchlightyear.contacttracer.ui.tracing.TracingFragment;
 import com.kenchlightyear.contacttracer.util.GpsTracker;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import static android.graphics.Color.BLUE;
 import static android.graphics.Color.RED;
@@ -154,20 +150,18 @@ public class CustomersFragment extends Fragment {
             feedback.setTextColor(BLUE);
             feedback.setText("Adding Customer...");
             feedback.setVisibility(View.VISIBLE);
-            new JsonTask().execute("https://liezel.kenchlightyear.com/api/v1/customer");
-
+            new AddCustomer().execute("https://liezel.kenchlightyear.com/api/v1/customer", view);
         }
     }
 
-    class JsonTask extends AsyncTask<String, String, String> {
-        HttpURLConnection connection = null;
-        BufferedReader reader = null;
-        StringBuffer buffer;
+    class AddCustomer extends AsyncTask<Object, String, View> {
 
         @Override
-        protected String doInBackground(String... params) {
+        protected View doInBackground(Object... params) {
+            String message = null;
+
             try {
-                URL url = new URL(params[0]);
+                URL url = new URL((String) params[0]);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("POST");
                 conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
@@ -198,20 +192,21 @@ public class CustomersFragment extends Fragment {
                 os.close();
 
                 int code = conn.getResponseCode();
+                message = conn.getResponseMessage();
                 if(code != 200) {
                     Log.i("JSON", jsonParam.toString());
                     Log.i("STATUS", String.valueOf(code));
-                    Log.i("MSG", conn.getResponseMessage());
+                    Log.i("MSG", message);
                 }
 
                 conn.disconnect();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return buffer.toString();
+            return (View) params[1];
         }
-        protected void onPostExecute(){
-            View view = root;
+
+        protected void onPostExecute(View view){
             ((TextView) view.findViewById(R.id.etFirst)).setText("");
             ((TextView) view.findViewById(R.id.etLast)).setText("");
             ((TextView) view.findViewById(R.id.etAddress)).setText("");
@@ -221,6 +216,7 @@ public class CustomersFragment extends Fragment {
             ((TextView) view.findViewById(R.id.etNumber)).setText("");
             ((TextView) view.findViewById(R.id.etEmail)).setText("");
             ((TextView) view.findViewById(R.id.etTemperature)).setText("");
+            feedback = view.findViewById(R.id.etFeedback);
             feedback.setText("Customer added");
         }
 

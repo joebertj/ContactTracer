@@ -55,8 +55,6 @@ public class TracingFragment extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
     private TracingViewModel tracingViewModel;
 
-    String [] customers;
-
     View root;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -80,7 +78,6 @@ public class TracingFragment extends Fragment {
         layoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        customers = new String[20];
         sharedpreferences = this.getActivity().getSharedPreferences(establishment,
                 Context.MODE_PRIVATE);
         establishmentId = sharedpreferences.getString(UniqueID, "");
@@ -88,12 +85,12 @@ public class TracingFragment extends Fragment {
     }
 
     class JsonTask extends AsyncTask<String, String, String> {
-        HttpURLConnection connection = null;
-        BufferedReader reader = null;
-        StringBuffer buffer;
 
         @Override
         protected String doInBackground(String... params) {
+            BufferedReader reader = null;
+            StringBuffer buffer = null;
+
             try {
                 URL url = new URL(params[0]);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -122,15 +119,7 @@ public class TracingFragment extends Fragment {
                 while ((line = reader.readLine()) != null) {
                     buffer.append(line+"\n");
                 }
-                JSONArray c = new JSONArray(buffer.toString());
-                int len = c.length();
-                for(int i=0;i<len;i++){
-                    first = c.getJSONObject(i).getString("first");
-                    last = c.getJSONObject(i).getString("last");
-                    number = c.getJSONObject(i).getLong("number");
-                    email = c.getJSONObject(i).getString("email");
-                    customers[i] = first + " " + last + " 0" + number.toString() + " " + email;
-                }
+
                 int code = conn.getResponseCode();
                 if(code != 200) {
                     Log.i("JSON", jsonParam.toString());
@@ -145,7 +134,22 @@ public class TracingFragment extends Fragment {
             }
             return buffer.toString();
         }
-        protected void onPostExecute(String ab){
+        protected void onPostExecute(String cJson){
+            String [] customers = new String[1000];
+            JSONArray c = null;
+            try {
+                c = new JSONArray(cJson);
+                int len = c.length();
+                for(int i=0;i<len;i++){
+                    first = c.getJSONObject(i).getString("first");
+                    last = c.getJSONObject(i).getString("last");
+                    number = c.getJSONObject(i).getLong("number");
+                    email = c.getJSONObject(i).getString("email");
+                    customers[i] = first + " " + last + " 0" + number.toString() + " " + email;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             customersAdapter = new CustomersAdapater(customers);
             recyclerView.setAdapter(customersAdapter);
         }
