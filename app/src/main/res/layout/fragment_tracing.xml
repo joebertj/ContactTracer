@@ -10,6 +10,7 @@
         android:id="@+id/rCustomers"
         android:layout_width="409dp"
         android:layout_height="729dp"
+        android:scrollbars="vertical"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="1dp" />
 

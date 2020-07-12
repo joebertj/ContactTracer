@@ -3,5 +3,5 @@
     <string name="title_establishment">Establishment</string>
     <string name="title_customers">Add Customer</string>
     <string name="title_tracing">Customers</string>
-    <string name="latitude">latitude</string>
+    <string name="latitude">Latitude</string>
 </resources>

@@ -89,7 +89,7 @@ public class EstablishmentFragment extends Fragment {
             gpsTracker.showSettingsAlert();
         }
         establishmentId.setText(uniqueId);
-        lat.setText("Latitude: " + getString(R.string.latitude));
+        lat.setText(getString(R.string.latitude) + ": " + latitude);
         lon.setText("Longitude: " + longitude);
     }
 }
