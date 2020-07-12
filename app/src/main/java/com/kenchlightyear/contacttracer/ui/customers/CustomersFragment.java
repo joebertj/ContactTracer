@@ -1,6 +1,9 @@
 package com.kenchlightyear.contacttracer.ui.customers;
 
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -9,6 +12,7 @@ import java.util.TimeZone;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,8 +28,11 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.kenchlightyear.contacttracer.R;
+import com.kenchlightyear.contacttracer.ui.tracing.CustomersAdapater;
+import com.kenchlightyear.contacttracer.ui.tracing.TracingFragment;
 import com.kenchlightyear.contacttracer.util.GpsTracker;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import static android.graphics.Color.BLUE;
@@ -34,6 +41,7 @@ import static android.graphics.Color.RED;
 public class CustomersFragment extends Fragment {
 
     SharedPreferences sharedpreferences;
+
     String first;
     String last;
     String address;
@@ -52,11 +60,14 @@ public class CustomersFragment extends Fragment {
     String establishmentId;
     String lat;
     String lon;
+
     public static final String establishment = "establishment";
     public static final String Name = "name";
     public static final String UniqueID = "uuid";
+
     double latitude = 14.5818;
     double longitude = 120.9770;
+
     View root;
 
     private CustomersViewModel customersViewModel;
@@ -143,7 +154,64 @@ public class CustomersFragment extends Fragment {
             feedback.setTextColor(BLUE);
             feedback.setText("Adding Customer...");
             feedback.setVisibility(View.VISIBLE);
-            sendPost();
+            new JsonTask().execute("https://liezel.kenchlightyear.com/api/v1/customer");
+
+        }
+    }
+
+    class JsonTask extends AsyncTask<String, String, String> {
+        HttpURLConnection connection = null;
+        BufferedReader reader = null;
+        StringBuffer buffer;
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                URL url = new URL(params[0]);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+                conn.setRequestProperty("Accept","application/json");
+                conn.setDoOutput(true);
+                conn.setDoInput(true);
+
+                JSONObject jsonParam = new JSONObject();
+                jsonParam.put("first", first);
+                jsonParam.put("last", last);
+                jsonParam.put("address", address);
+                jsonParam.put("barangay", barangay);
+                jsonParam.put("city", city);
+                jsonParam.put("province", province);
+                jsonParam.put("number", number);
+                jsonParam.put("email", email);
+                jsonParam.put("temperature", temperature);
+                jsonParam.put("timestamp", ts);
+                jsonParam.put("establishment", name);
+                jsonParam.put("establishmentid", establishmentId);
+                jsonParam.put("latitude", latitude);
+                jsonParam.put("longitude", longitude);
+
+                DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+                os.writeBytes(jsonParam.toString());
+
+                os.flush();
+                os.close();
+
+                int code = conn.getResponseCode();
+                if(code != 200) {
+                    Log.i("JSON", jsonParam.toString());
+                    Log.i("STATUS", String.valueOf(code));
+                    Log.i("MSG", conn.getResponseMessage());
+                }
+
+                conn.disconnect();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return buffer.toString();
+        }
+        protected void onPostExecute(){
+            View view = root;
             ((TextView) view.findViewById(R.id.etFirst)).setText("");
             ((TextView) view.findViewById(R.id.etLast)).setText("");
             ((TextView) view.findViewById(R.id.etAddress)).setText("");
@@ -155,60 +223,6 @@ public class CustomersFragment extends Fragment {
             ((TextView) view.findViewById(R.id.etTemperature)).setText("");
             feedback.setText("Customer added");
         }
-    }
 
-    public void sendPost() {
-        final String urlAdress = "https://liezel.kenchlightyear.com/api/v1/customer";
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    URL url = new URL(urlAdress);
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.setRequestMethod("POST");
-                    conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
-                    conn.setRequestProperty("Accept","application/json");
-                    conn.setDoOutput(true);
-                    conn.setDoInput(true);
-
-                    JSONObject jsonParam = new JSONObject();
-                    jsonParam.put("first", first);
-                    jsonParam.put("last", last);
-                    jsonParam.put("address", address);
-                    jsonParam.put("barangay", barangay);
-                    jsonParam.put("city", city);
-                    jsonParam.put("province", province);
-                    jsonParam.put("number", number);
-                    jsonParam.put("email", email);
-                    jsonParam.put("temperature", temperature);
-                    jsonParam.put("timestamp", ts);
-                    jsonParam.put("establishment", name);
-                    jsonParam.put("establishmentId", establishmentId);
-                    jsonParam.put("latitude", latitude);
-                    jsonParam.put("longitude", longitude);
-
-                    DataOutputStream os = new DataOutputStream(conn.getOutputStream());
-                    os.writeBytes(jsonParam.toString());
-
-                    os.flush();
-                    os.close();
-
-                    int code = conn.getResponseCode();
-                    if(code == 200) {
-                        ;
-                    } else {
-                        Log.i("JSON", jsonParam.toString());
-                        Log.i("STATUS", String.valueOf(code));
-                        Log.i("MSG", conn.getResponseMessage());
-                    }
-
-                    conn.disconnect();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        thread.start();
     }
 }

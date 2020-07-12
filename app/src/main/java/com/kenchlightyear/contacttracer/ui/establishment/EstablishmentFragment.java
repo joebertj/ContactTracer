@@ -18,8 +18,6 @@ import androidx.lifecycle.ViewModelProviders;
 import com.kenchlightyear.contacttracer.R;
 import com.kenchlightyear.contacttracer.util.GpsTracker;
 
-import org.w3c.dom.Text;
-
 import java.util.UUID;
 
 public class EstablishmentFragment extends Fragment {
@@ -41,7 +39,7 @@ public class EstablishmentFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         EstablishmentViewModel establishmentViewModel = ViewModelProviders.of(this).get(EstablishmentViewModel.class);
         root = inflater.inflate(R.layout.fragment_establishment, container, false);
-        Button button = (Button) root.findViewById(R.id.bSave);
+        Button button = root.findViewById(R.id.bSave);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,16 +65,16 @@ public class EstablishmentFragment extends Fragment {
     }
 
     public void Get(View view) {
-        name = (TextView) view.findViewById(R.id.etName);
-        establishmentId = (TextView) view.findViewById(R.id.etUuid);
-        lat = (TextView) view.findViewById(R.id.etLat);
-        lon = (TextView) view.findViewById(R.id.etLong);
+        name = view.findViewById(R.id.etName);
+        establishmentId = view.findViewById(R.id.etUUID);
+        lat = view.findViewById(R.id.etLat);
+        lon = view.findViewById(R.id.etLong);
         sharedpreferences = this.getActivity().getSharedPreferences(establishment,
                 Context.MODE_PRIVATE);
         if (sharedpreferences.contains(Name)) name.setText(sharedpreferences.getString(Name, ""));
         if (sharedpreferences.contains(UniqueID)) establishmentId.setText(sharedpreferences.getString(UniqueID, ""));
         uniqueId = establishmentId.getText().toString();
-        if (uniqueId.equals("Uuid")) {
+        if (uniqueId.equals("UUID")) {
             uniqueId = UUID.randomUUID().toString();
             SharedPreferences.Editor editor = sharedpreferences.edit();
             editor.putString(UniqueID, uniqueId);
@@ -91,7 +89,7 @@ public class EstablishmentFragment extends Fragment {
             gpsTracker.showSettingsAlert();
         }
         establishmentId.setText(uniqueId);
-        lat.setText("Latitude: " + Double.toString(latitude));
-        lon.setText("Longitude: " + Double.toString(longitude));
+        lat.setText("Latitude: " + getString(R.string.latitude));
+        lon.setText("Longitude: " + longitude);
     }
 }

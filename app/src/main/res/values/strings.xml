@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Contact Tracer</string>
     <string name="title_establishment">Establishment</string>
-    <string name="title_customers">Customers</string>
-    <string name="title_tracing">Tracing</string>
+    <string name="title_customers">Add Customer</string>
+    <string name="title_tracing">Customers</string>
+    <string name="latitude">latitude</string>
 </resources>
