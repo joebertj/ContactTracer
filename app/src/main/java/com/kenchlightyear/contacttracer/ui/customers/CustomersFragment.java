@@ -1,9 +1,12 @@
 package com.kenchlightyear.contacttracer.ui.customers;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.DataOutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
@@ -185,11 +188,10 @@ public class CustomersFragment extends Fragment {
                 jsonParam.put("latitude", latitude);
                 jsonParam.put("longitude", longitude);
 
-                DataOutputStream os = new DataOutputStream(conn.getOutputStream());
-                os.writeBytes(jsonParam.toString());
-
-                os.flush();
-                os.close();
+                BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream(), "UTF-8"));
+                bw.write(jsonParam.toString());
+                bw.flush();
+                bw.close();
 
                 int code = conn.getResponseCode();
                 message = conn.getResponseMessage();
