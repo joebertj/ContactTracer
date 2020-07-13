@@ -1,4 +1,4 @@
-package com.kenchlightyear.contacttracer.ui.customers;
+package com.kenchlightyear.contacttracer.ui.customer;
 
 import java.io.BufferedWriter;
 import java.io.OutputStreamWriter;
@@ -17,16 +17,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.kenchlightyear.contacttracer.MainActivity;
 import com.kenchlightyear.contacttracer.R;
 import com.kenchlightyear.contacttracer.util.GpsTracker;
 
@@ -67,6 +69,9 @@ public class CustomerFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        Context cContext = container.getContext();
+        MainActivity mainActivity = (MainActivity) cContext;
+        mainActivity.clearDetail();
         customerViewModel =
                 ViewModelProviders.of(this).get(CustomerViewModel.class);
         root = inflater.inflate(R.layout.fragment_customer, container, false);

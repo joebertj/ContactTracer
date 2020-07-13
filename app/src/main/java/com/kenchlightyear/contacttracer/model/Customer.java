@@ -1,8 +1,7 @@
-package com.kenchlightyear.contacttracer;
+package com.kenchlightyear.contacttracer.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.widget.TextView;
 
 public class Customer implements Parcelable {
     String first;

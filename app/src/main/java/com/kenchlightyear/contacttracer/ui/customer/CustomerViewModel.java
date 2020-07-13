@@ -1,16 +1,16 @@
-package com.kenchlightyear.contacttracer.ui.tracing;
+package com.kenchlightyear.contacttracer.ui.customer;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class CustomersViewModel extends ViewModel {
+public class CustomerViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public CustomersViewModel() {
+    public CustomerViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is notifications fragment");
+        mText.setValue("This is dashboard fragment");
     }
 
     public LiveData<String> getText() {

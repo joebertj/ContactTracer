@@ -1,4 +1,4 @@
-package com.kenchlightyear.contacttracer.ui;
+package com.kenchlightyear.contacttracer.ui.customer;
 
 import android.os.Bundle;
 
@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.kenchlightyear.contacttracer.Customer;
+import com.kenchlightyear.contacttracer.model.Customer;
 import com.kenchlightyear.contacttracer.R;
 
 public class CustomerDetailFragment extends Fragment {
@@ -32,6 +32,7 @@ public class CustomerDetailFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, final Bundle savedInstanceState) {
+
         customerDetailViewModel =
                 ViewModelProviders.of(this).get(CustomerDetailViewModel.class);
         root = inflater.inflate(R.layout.fragment_customer_detail, container, false);

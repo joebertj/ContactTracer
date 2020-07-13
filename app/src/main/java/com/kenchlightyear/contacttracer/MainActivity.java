@@ -1,13 +1,22 @@
 package com.kenchlightyear.contacttracer;
 
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -15,6 +24,8 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
+import com.kenchlightyear.contacttracer.ui.customer.CustomerDetailFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,15 +43,17 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
-    }
+     }
 
-    public void switchContent(Fragment fragment) {
-       //FrameLayout fl = (FrameLayout) findViewById(R.id.nav_host_fragment);
-        //fl.removeAllViews();
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.add(R.id.nav_host_fragment, fragment);
-        //ft.replace(R.id.nav_host_fragment, fragment, fragment.toString());
-        ft.addToBackStack(null);
-        ft.commit();
+    public void clearDetail(){
+        FragmentManager sfm = getSupportFragmentManager();
+        Fragment fragment;
+        fragment = sfm.findFragmentByTag("CUSTOMER");
+        if(fragment!=null) {
+            FragmentTransaction ft = sfm.beginTransaction();
+            ft.remove(fragment);
+            ft.addToBackStack(null);
+            ft.commit();
+        }
     }
 }

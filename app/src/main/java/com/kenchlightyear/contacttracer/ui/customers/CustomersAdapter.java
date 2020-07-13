@@ -1,4 +1,5 @@
-package com.kenchlightyear.contacttracer.ui.tracing;
+package com.kenchlightyear.contacttracer.ui.customers;
+
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,12 +10,14 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.kenchlightyear.contacttracer.Customer;
+import com.kenchlightyear.contacttracer.model.Customer;
 import com.kenchlightyear.contacttracer.MainActivity;
 import com.kenchlightyear.contacttracer.R;
-import com.kenchlightyear.contacttracer.ui.CustomerDetailFragment;
+import com.kenchlightyear.contacttracer.ui.customer.CustomerDetailFragment;
 
 import java.util.List;
 
@@ -22,7 +25,7 @@ public class CustomersAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
 
     private List<Customer> customers;
 
-    Context cContext;
+    ViewGroup vg;
 
     public CustomersAdapter(List<Customer> customers) {
         this.customers = customers;
@@ -36,8 +39,8 @@ public class CustomersAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
     @NonNull
     @Override
     public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        cContext = parent.getContext();
-        View view = LayoutInflater.from(cContext).inflate(viewType, parent, false);
+        vg = parent;
+        View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
         return new RecyclerViewHolder(view);
     }
 
@@ -51,7 +54,7 @@ public class CustomersAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
             @Override
             public void onClick(View view) {
                 Log.d("CUSTOMER", customer.toString());
-                fragmentJump(customer);
+                switchContent(customer);
             }
         };
         holder.getName().setOnClickListener(listener);
@@ -59,21 +62,25 @@ public class CustomersAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
         holder.getEmail().setOnClickListener(listener);
     }
 
-    private void fragmentJump(Customer customer) {
-        Fragment mFragment = new CustomerDetailFragment();
-        Bundle mBundle = new Bundle();
-        mBundle.putParcelable("customer", customer);
-        mFragment.setArguments(mBundle);
-        switchContent(mFragment);
-    }
-
-    public void switchContent(Fragment fragment) {
+    public void switchContent(Customer customer) {
+        Context cContext = vg.getContext();
         Log.d("CONTEXT", new Boolean(cContext instanceof MainActivity).toString());
         if (cContext == null)
             return;
         if (cContext instanceof MainActivity) {
             MainActivity mainActivity = (MainActivity) cContext;
-            mainActivity.switchContent(fragment);
+            FragmentManager sfm = mainActivity.getSupportFragmentManager();
+            Fragment fragment;
+            fragment = sfm.findFragmentByTag("CUSTOMER");
+            if(fragment==null)
+                fragment = new CustomerDetailFragment();
+            Bundle mBundle = new Bundle();
+            mBundle.putParcelable("customer", customer);
+            fragment.setArguments(mBundle);
+            FragmentTransaction ft = sfm.beginTransaction();
+            ft.replace(R.id.nav_host_fragment, fragment, "CUSTOMER");
+            ft.addToBackStack(null);
+            ft.commit();
         }
     }
 

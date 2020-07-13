@@ -1,4 +1,4 @@
-package com.kenchlightyear.contacttracer.ui.tracing;
+package com.kenchlightyear.contacttracer.ui.customers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,7 +17,8 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.kenchlightyear.contacttracer.Customer;
+import com.kenchlightyear.contacttracer.MainActivity;
+import com.kenchlightyear.contacttracer.model.Customer;
 import com.kenchlightyear.contacttracer.R;
 
 import org.json.JSONArray;
@@ -61,6 +61,9 @@ public class CustomersFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        Context cContext = container.getContext();
+        MainActivity mainActivity = (MainActivity) cContext;
+        mainActivity.clearDetail();
         customersViewModel =
                 ViewModelProviders.of(this).get(CustomersViewModel.class);
         root = inflater.inflate(R.layout.fragment_customers, container, false);
@@ -147,11 +150,19 @@ public class CustomersFragment extends Fragment {
                     last = c.getJSONObject(i).getString("last");
                     number = c.getJSONObject(i).getLong("number");
                     email = c.getJSONObject(i).getString("email");
+                    address = c.getJSONObject(i).getString("address");
+                    barangay = c.getJSONObject(i).getString("barangay");
+                    city = c.getJSONObject(i).getString("city");
+                    province = c.getJSONObject(i).getString("province");
                     Customer customer = new Customer();
                     customer.setFirst(first);
                     customer.setLast(last);
                     customer.setNumber(number);
                     customer.setEmail(email);
+                    customer.setAddress(address);
+                    customer.setBarangay(barangay);
+                    customer.setCity(city);
+                    customer.setProvince(province);
                     customers.add(customer);
                 }
             } catch (JSONException e) {

@@ -1,4 +1,4 @@
-package com.kenchlightyear.contacttracer.ui.tracing;
+package com.kenchlightyear.contacttracer.ui.customers;
 
 import android.util.Log;
 import android.view.View;
@@ -15,11 +15,11 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
     private TextView number;
     private TextView email;
 
-    public RecyclerViewHolder(@NonNull final View itemView) {
-        super(itemView);
-        name = itemView.findViewById(R.id.etCustomer);
-        number = itemView.findViewById(R.id.etNumber);
-        email = itemView.findViewById(R.id.etEmail);
+    public RecyclerViewHolder(@NonNull final View view) {
+        super(view);
+        name = view.findViewById(R.id.etCustomer);
+        number = view.findViewById(R.id.etNumber);
+        email = view.findViewById(R.id.etEmail);
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

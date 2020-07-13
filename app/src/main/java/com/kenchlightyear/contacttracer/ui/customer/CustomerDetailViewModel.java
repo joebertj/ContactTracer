@@ -1,4 +1,4 @@
-package com.kenchlightyear.contacttracer.ui;
+package com.kenchlightyear.contacttracer.ui.customer;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
