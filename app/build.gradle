@@ -8,8 +8,8 @@ android {
         applicationId "com.kenchlightyear.contacttracer"
         minSdkVersion 14
         targetSdkVersion 30
-        versionCode 17
-        versionName "1.7"
+        versionCode 19
+        versionName "1.9"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
